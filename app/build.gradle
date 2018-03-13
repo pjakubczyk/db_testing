@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
         applicationId "org.jakubczyk.dbtesting"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -18,11 +18,42 @@ android {
     }
 }
 
+ext {
+    supportVersion = '27.1.0'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:design:$supportVersion"
+    implementation "com.android.support:recyclerview-v7:$supportVersion"
+    implementation "com.android.support:support-v4:$supportVersion"
+    implementation "com.android.support:cardview-v7:$supportVersion"
+    implementation "com.android.support:customtabs:$supportVersion"
+    implementation "com.android.support:support-annotations:$supportVersion"
+    implementation "com.android.support:support-compat:$supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation "com.android.support:preference-v7:$supportVersion"
+
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'io.reactivex:rxjava:1.3.0'
+
+    implementation 'io.requery:requery:1.3.2'
+    implementation 'io.requery:requery-android:1.3.2'
+    annotationProcessor 'io.requery:requery-processor:1.3.2'
+
+    implementation 'com.google.dagger:dagger:2.11'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+
+    testImplementation 'org.codehaus.groovy:groovy:2.4.3:grooid'
+
+    testImplementation 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testImplementation 'org.objenesis:objenesis:2.6'
+    testImplementation 'cglib:cglib-nodep:3.2.2'
+    testImplementation "org.json:json:20140107"
+
+    // for testing database on JVM
+    testImplementation 'org.xerial:sqlite-jdbc:3.20.1'
+
 }
