@@ -7,7 +7,7 @@ import org.jakubczyk.dbtesting.di.AppComponent;
 
 public class BaseActivity extends AppCompatActivity {
 
-    AppComponent appComponent;
+    protected AppComponent appComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

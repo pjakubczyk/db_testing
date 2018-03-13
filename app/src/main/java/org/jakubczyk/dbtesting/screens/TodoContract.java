@@ -7,6 +7,9 @@ public interface TodoContract {
     }
 
     interface Presenter {
-        
+
+        void create(View view);
+
+        void destroy();
     }
 }
