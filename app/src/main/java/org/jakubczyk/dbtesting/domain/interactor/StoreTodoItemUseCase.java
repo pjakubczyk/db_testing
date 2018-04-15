@@ -9,7 +9,6 @@ import org.jakubczyk.dbtesting.domain.repository.datasource.TodoDatasource;
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.functions.Func1;
 
 public class StoreTodoItemUseCase extends UseCase<Boolean, String> {
 
@@ -27,13 +26,6 @@ public class StoreTodoItemUseCase extends UseCase<Boolean, String> {
     @Override
     Observable<Boolean> buildUseCaseObservable(@NonNull String newValue) {
         return todoDatasource
-                .addNewEntity(newValue)
-                .toObservable()
-                .map(new Func1<Object, Boolean>() {
-                    @Override
-                    public Boolean call(Object aBoolean) {
-                        return true;
-                    }
-                });
+                .addNewEntity(newValue);
     }
 }
