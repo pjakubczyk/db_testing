@@ -2,6 +2,7 @@ package org.jakubczyk.dbtesting.screens;
 
 import org.jakubczyk.dbtesting.data.entity.TodoEntity;
 import org.jakubczyk.dbtesting.domain.interactor.GetTodoUseCase;
+import org.jakubczyk.dbtesting.domain.interactor.StoreTodoItemUseCase;
 
 import java.util.List;
 
@@ -13,10 +14,14 @@ public class TodoListPresenter implements TodoContract.Presenter {
 
     TodoContract.View view;
     private GetTodoUseCase getTodoUseCase;
+    private StoreTodoItemUseCase storeTodoItemUseCase;
 
     @Inject
-    public TodoListPresenter(GetTodoUseCase getTodoUseCase) {
+    public TodoListPresenter(
+            GetTodoUseCase getTodoUseCase,
+            StoreTodoItemUseCase storeTodoItemUseCase) {
         this.getTodoUseCase = getTodoUseCase;
+        this.storeTodoItemUseCase = storeTodoItemUseCase;
     }
 
     @Override
@@ -30,6 +35,11 @@ public class TodoListPresenter implements TodoContract.Presenter {
     public void destroy() {
         getTodoUseCase.unsubscribe();
         view = null;
+    }
+
+    @Override
+    public void addNewItem(String value) {
+        storeTodoItemUseCase.execute(new AddNewItemObserver(), value);
     }
 
     class TodoListObserver extends Subscriber<List<TodoEntity>> {
@@ -47,6 +57,24 @@ public class TodoListPresenter implements TodoContract.Presenter {
         @Override
         public void onNext(List<TodoEntity> todoEntities) {
             view.showEntities(todoEntities);
+        }
+    }
+
+    class AddNewItemObserver extends Subscriber<Boolean> {
+
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onNext(Boolean aBoolean) {
+
         }
     }
 }

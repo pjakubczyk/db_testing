@@ -16,5 +16,7 @@ public interface TodoContract {
         void create(View view);
 
         void destroy();
+
+        void addNewItem(String value);
     }
 }
