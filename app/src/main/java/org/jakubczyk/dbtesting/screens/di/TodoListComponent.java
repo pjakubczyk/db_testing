@@ -1,5 +1,6 @@
 package org.jakubczyk.dbtesting.screens.di;
 
+import org.jakubczyk.dbtesting.common.MainScheduler;
 import org.jakubczyk.dbtesting.di.AppComponent;
 import org.jakubczyk.dbtesting.di.ForActivity;
 import org.jakubczyk.dbtesting.screens.TodoContract;
