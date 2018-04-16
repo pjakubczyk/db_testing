@@ -1,10 +1,8 @@
 package org.jakubczyk.dbtesting.domain.repository.datasource;
 
-import org.jakubczyk.dbtesting.data.entity.TodoEntity;
 import org.jakubczyk.dbtesting.db.RequeryDatastore;
 import org.jakubczyk.dbtesting.db.model.TodoDbEntityEntity;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,7 +16,7 @@ import rx.functions.Func1;
 public class TodoDatasourceImpl implements TodoDatasource {
 
 
-    private final SingleEntityStore<Persistable> dataStore;
+    private SingleEntityStore<Persistable> dataStore;
 
     @Inject
     public TodoDatasourceImpl(
@@ -27,8 +25,8 @@ public class TodoDatasourceImpl implements TodoDatasource {
     }
 
     @Override
-    public Observable<List<TodoEntity>> getTodoEntitiesStream() {
-        return Observable.just(Collections.<TodoEntity>emptyList());
+    public Observable<List<TodoDbEntityEntity>> getTodoEntitiesStream() {
+        return dataStore.select(TodoDbEntityEntity.class).get().toObservable().toList();
     }
 
     @Override
@@ -36,11 +34,9 @@ public class TodoDatasourceImpl implements TodoDatasource {
         TodoDbEntityEntity todoDbEntityEntity = new TodoDbEntityEntity();
         todoDbEntityEntity.setItemValue(newEntityValue);
 
-        return dataStore.insert(todoDbEntityEntity).flatMap(new Func1<TodoDbEntityEntity, Single<Boolean>>() {
-            @Override
-            public Single<Boolean> call(TodoDbEntityEntity todoDbEntityEntity) {
-                return Single.just(true);
-            }
-        }).toObservable();
+        return dataStore
+                .insert(todoDbEntityEntity)
+                .flatMap((Func1<TodoDbEntityEntity, Single<Boolean>>) todoDbEntityEntity1 -> Single.just(true))
+                .toObservable();
     }
 }

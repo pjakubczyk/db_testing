@@ -34,4 +34,23 @@ class TodoDatasourceImplSpec extends MySpecification {
         and: "make a query which is not exposed in datasource"
         store.select(TodoDbEntityEntity).get().toObservable().test().onNextEvents[0].getItemValue() == "newEntityValue"
     }
+
+    def "should query for all todo items"() {
+        given: "add few item"
+        datasource.addNewEntity("newEntityValue1").test()
+        datasource.addNewEntity("newEntityValue2").test()
+        datasource.addNewEntity("newEntityValue3").test()
+
+        when:
+        def test = datasource.getTodoEntitiesStream().test()
+
+        then:
+        test.onNextEvents.size() == 1
+
+        and: "the collection has 3 elements"
+        test.onNextEvents[0].size() == 3
+        test.onNextEvents[0][0].getItemValue() == "newEntityValue1"
+        test.onNextEvents[0][1].getItemValue() == "newEntityValue2"
+        test.onNextEvents[0][2].getItemValue() == "newEntityValue3"
+    }
 }
