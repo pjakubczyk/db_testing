@@ -41,6 +41,8 @@ public class TodoListActivity extends BaseActivity implements TodoContract.View 
         presenter = component.getPresenter();
 
         presenter.create(this);
+
+        binding.addItem.setOnClickListener(v -> presenter.addNewItem(binding.newItemValue.getText().toString()));
     }
 
     @Override
