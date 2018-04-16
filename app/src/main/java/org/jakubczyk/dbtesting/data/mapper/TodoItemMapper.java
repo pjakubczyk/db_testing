@@ -14,6 +14,6 @@ public class TodoItemMapper {
     }
 
     public TodoEntity toTodoEntity() {
-        return new TodoEntity(todoDbEntityEntity.getItemValue(), new Date());
+        return new TodoEntity(todoDbEntityEntity.getId(), todoDbEntityEntity.getItemValue(), new Date());
     }
 }

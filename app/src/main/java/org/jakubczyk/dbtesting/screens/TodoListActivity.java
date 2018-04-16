@@ -109,17 +109,17 @@ public class TodoListActivity extends BaseActivity implements TodoContract.View 
 
         @Override
         public int compare(TodoEntity o1, TodoEntity o2) {
-            return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+            return o1.getId().compareTo(o2.getId());
         }
 
         @Override
         public boolean areContentsTheSame(TodoEntity oldItem, TodoEntity newItem) {
-            return oldItem.getValue().equals(newItem.getValue());
+            return oldItem.getId().equals(newItem.getId());
         }
 
         @Override
         public boolean areItemsTheSame(TodoEntity item1, TodoEntity item2) {
-            return item1.getValue().equals(item2.getValue());
+            return item1.getId().equals(item2.getId());
         }
     }
 
