@@ -1,0 +1,1 @@
+CREATE TABLE TodoDbEntity (id integer primary key autoincrement not null, itemValue varchar(255));

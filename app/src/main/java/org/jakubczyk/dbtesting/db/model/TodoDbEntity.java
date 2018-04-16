@@ -1,5 +1,7 @@
 package org.jakubczyk.dbtesting.db.model;
 
+import java.util.Date;
+
 import io.requery.Column;
 import io.requery.Entity;
 import io.requery.Generated;
@@ -15,4 +17,6 @@ public interface TodoDbEntity {
     @Column
     String getItemValue();
 
+    @Column
+    Date getCreatedAt();
 }
