@@ -3,6 +3,7 @@ package org.jakubczyk.dbtesting.domain.repository.datasource;
 import org.jakubczyk.dbtesting.db.RequeryDatastore;
 import org.jakubczyk.dbtesting.db.model.TodoDbEntityEntity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,6 +47,7 @@ public class TodoDatasourceImpl implements TodoDatasource {
     public Observable<Boolean> addNewEntity(String newEntityValue) {
         TodoDbEntityEntity todoDbEntityEntity = new TodoDbEntityEntity();
         todoDbEntityEntity.setItemValue(newEntityValue);
+        todoDbEntityEntity.setCreatedAt(new Date());
 
         return dataStore
                 .insert(todoDbEntityEntity)

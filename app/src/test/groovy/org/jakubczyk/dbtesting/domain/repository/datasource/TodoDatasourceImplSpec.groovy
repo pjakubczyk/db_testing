@@ -34,6 +34,7 @@ class TodoDatasourceImplSpec extends MySpecification {
 
         and: "make a query which is not exposed in datasource"
         store.select(TodoDbEntityEntity).get().toObservable().test().onNextEvents[0].getItemValue() == "newEntityValue"
+        store.select(TodoDbEntityEntity).get().toObservable().test().onNextEvents[0].getCreatedAt().getTime() > 0L
     }
 
     def "should inform about new data"() {
