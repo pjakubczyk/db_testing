@@ -4,6 +4,7 @@ import io.requery.rx.SingleEntityStore
 import org.jakubczyk.dbtesting.MySpecification
 import org.jakubczyk.dbtesting.db.RequeryDatastore
 import org.jakubczyk.dbtesting.db.model.TodoDbEntityEntity
+import rx.observers.TestSubscriber
 
 class TodoDatasourceImplSpec extends MySpecification {
 
@@ -35,22 +36,33 @@ class TodoDatasourceImplSpec extends MySpecification {
         store.select(TodoDbEntityEntity).get().toObservable().test().onNextEvents[0].getItemValue() == "newEntityValue"
     }
 
-    def "should query for all todo items"() {
-        given: "add few item"
-        datasource.addNewEntity("newEntityValue1").test()
-        datasource.addNewEntity("newEntityValue2").test()
-        datasource.addNewEntity("newEntityValue3").test()
+    def "should inform about new data"() {
+        given:
+        def subscriber = new TestSubscriber<List<TodoDbEntityEntity>>()
 
         when:
-        def test = datasource.getTodoEntitiesStream().test()
+        datasource.getTodoEntitiesStream().subscribe(subscriber)
 
         then:
-        test.onNextEvents.size() == 1
+        subscriber.onNextEvents.size() == 1
 
-        and: "the collection has 3 elements"
-        test.onNextEvents[0].size() == 3
-        test.onNextEvents[0][0].getItemValue() == "newEntityValue1"
-        test.onNextEvents[0][1].getItemValue() == "newEntityValue2"
-        test.onNextEvents[0][2].getItemValue() == "newEntityValue3"
+        when:
+        datasource.addNewEntity("newEntityValue1").test()
+
+        then:
+        subscriber.onNextEvents.size() == 2
+
+        and:
+        subscriber.onNextEvents[1][0].getItemValue() == "newEntityValue1"
+
+        when:
+        datasource.addNewEntity("newEntityValue2").test()
+
+        then:
+        subscriber.onNextEvents.size() == 3
+
+        and:
+        subscriber.onNextEvents[2][0].getItemValue() == "newEntityValue1"
+        subscriber.onNextEvents[2][1].getItemValue() == "newEntityValue2"
     }
 }

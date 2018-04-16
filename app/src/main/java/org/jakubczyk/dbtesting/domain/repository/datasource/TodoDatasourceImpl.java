@@ -12,11 +12,14 @@ import io.requery.rx.SingleEntityStore;
 import rx.Observable;
 import rx.Single;
 import rx.functions.Func1;
+import rx.subjects.BehaviorSubject;
 
 public class TodoDatasourceImpl implements TodoDatasource {
 
 
     private SingleEntityStore<Persistable> dataStore;
+
+    BehaviorSubject<List<TodoDbEntityEntity>> behaviorSubject = BehaviorSubject.create();
 
     @Inject
     public TodoDatasourceImpl(
@@ -26,7 +29,17 @@ public class TodoDatasourceImpl implements TodoDatasource {
 
     @Override
     public Observable<List<TodoDbEntityEntity>> getTodoEntitiesStream() {
-        return dataStore.select(TodoDbEntityEntity.class).get().toObservable().toList();
+        // empty stream
+        if (behaviorSubject.getValue() == null) {
+            dataStore
+                    .select(TodoDbEntityEntity.class)
+                    .get()
+                    .toObservable()
+                    .toList()
+                    .subscribe(behaviorSubject::onNext);
+        }
+
+        return behaviorSubject;
     }
 
     @Override
@@ -37,6 +50,13 @@ public class TodoDatasourceImpl implements TodoDatasource {
         return dataStore
                 .insert(todoDbEntityEntity)
                 .flatMap((Func1<TodoDbEntityEntity, Single<Boolean>>) todoDbEntityEntity1 -> Single.just(true))
-                .toObservable();
+                .toObservable()
+                .doOnNext(aBoolean -> dataStore
+                        .select(TodoDbEntityEntity.class)
+                        .get()
+                        .toObservable()
+                        .toList()
+                        .subscribe(behaviorSubject::onNext)
+                );
     }
 }
