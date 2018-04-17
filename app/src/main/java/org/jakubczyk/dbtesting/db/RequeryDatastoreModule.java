@@ -12,8 +12,8 @@ public class RequeryDatastoreModule {
 
     @Provides
     @Singleton
-    RequeryDatastore provideDataStore(Context context) {
-        RequeryDatastore.Builder builder = new RequeryDatastore.Builder(context);
+    RequeryHelper provideDataStore(Context context) {
+        RequeryHelper.Builder builder = new RequeryHelper.Builder(context);
 
         return builder.build();
     }

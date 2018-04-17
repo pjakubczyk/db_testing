@@ -1,13 +1,12 @@
 package org.jakubczyk.dbtesting
 
-import io.requery.converter.EnumStringConverter
 import io.requery.sql.Configuration
 import io.requery.sql.SchemaModifier
 import io.requery.sql.TableCreationMode
 import io.requery.sql.platform.SQLite
 import org.jakubczyk.dbtesting.common.IoScheduler
 import org.jakubczyk.dbtesting.common.MainScheduler
-import org.jakubczyk.dbtesting.db.RequeryDatastore
+import org.jakubczyk.dbtesting.db.RequeryHelper
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.sqlite.SQLiteConfig
@@ -64,8 +63,8 @@ class MySpecification extends Specification {
         return persistableRepository.getDataStore()
     }
 
-    RequeryDatastore getPersistableRepository() {
-        def builder = new RequeryDatastore.Builder(sqlLiteSource())
+    RequeryHelper getPersistableRepository() {
+        def builder = new RequeryHelper.Builder(sqlLiteSource())
         builder.platform(new SQLite())
 
         return builder.build()

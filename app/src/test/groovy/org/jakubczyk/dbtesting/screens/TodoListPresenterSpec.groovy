@@ -46,7 +46,7 @@ class TodoListPresenterSpec extends Specification {
         presenter.create(view)
 
         and:
-        def entities = [new TodoEntity("value", new Date())]
+        def entities = [new TodoEntity(1, "value", new Date())]
 
         when:
         todoListObserver.onNext(entities)

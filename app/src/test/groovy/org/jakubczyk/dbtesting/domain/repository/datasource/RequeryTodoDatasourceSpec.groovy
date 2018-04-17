@@ -2,24 +2,24 @@ package org.jakubczyk.dbtesting.domain.repository.datasource
 
 import io.requery.rx.SingleEntityStore
 import org.jakubczyk.dbtesting.MySpecification
-import org.jakubczyk.dbtesting.db.RequeryDatastore
+import org.jakubczyk.dbtesting.db.RequeryHelper
 import org.jakubczyk.dbtesting.db.model.TodoDbEntityEntity
 import rx.observers.TestSubscriber
 
-class TodoDatasourceImplSpec extends MySpecification {
+class RequeryTodoDatasourceSpec extends MySpecification {
 
     // direct access to database
     SingleEntityStore store
 
-    RequeryDatastore dataStore
+    RequeryHelper dataStore
 
-    TodoDatasourceImpl datasource
+    RequeryTodoDatasource datasource
 
     def "setup"() {
         dataStore = getPersistableRepository()
         store = dataStore.getDataStore()
 
-        datasource = new TodoDatasourceImpl(dataStore)
+        datasource = new RequeryTodoDatasource(dataStore)
 
         // each test will have empty database
         dataStore.recreateTables()

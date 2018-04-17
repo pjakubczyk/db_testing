@@ -1,7 +1,7 @@
 package org.jakubczyk.dbtesting.domain;
 
+import org.jakubczyk.dbtesting.domain.repository.datasource.RequeryTodoDatasource;
 import org.jakubczyk.dbtesting.domain.repository.datasource.TodoDatasource;
-import org.jakubczyk.dbtesting.domain.repository.datasource.TodoDatasourceImpl;
 
 import javax.inject.Singleton;
 
@@ -13,5 +13,5 @@ public abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract TodoDatasource provideTodoDatasource(TodoDatasourceImpl todoDatasource);
+    abstract TodoDatasource provideTodoDatasource(RequeryTodoDatasource todoDatasource);
 }

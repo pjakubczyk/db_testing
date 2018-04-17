@@ -109,7 +109,7 @@ public class TodoListActivity extends BaseActivity implements TodoContract.View 
 
         @Override
         public int compare(TodoEntity o1, TodoEntity o2) {
-            return o1.getId().compareTo(o2.getId());
+            return o1.getCreatedAt().compareTo(o2.getCreatedAt());
         }
 
         @Override

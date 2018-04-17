@@ -39,8 +39,8 @@ class DbMigratorSpec extends MySpecification {
         when: "run all migrations"
         dbMigrator.migrate(
                 { sql -> runStatement(configuration, sql) },
-                RequeryDatastore.INITIAL_DB_SCHEMA_VERSION,
-                RequeryDatastore.SCHEMA_VERSION
+                RequeryHelper.INITIAL_DB_SCHEMA_VERSION,
+                RequeryHelper.SCHEMA_VERSION
         )
 
         and: "read current text schema"
@@ -69,7 +69,7 @@ class DbMigratorSpec extends MySpecification {
         dbMigrator.migrate(
                 { sql -> runStatement(configuration, sql) },
                 version,
-                RequeryDatastore.SCHEMA_VERSION
+                RequeryHelper.SCHEMA_VERSION
         )
 
         and: "read current text schema"
@@ -79,7 +79,7 @@ class DbMigratorSpec extends MySpecification {
         schemaAfter == latestSchema
 
         where:
-        version << (RequeryDatastore.INITIAL_DB_SCHEMA_VERSION..RequeryDatastore.SCHEMA_VERSION)
+        version << (RequeryHelper.INITIAL_DB_SCHEMA_VERSION..RequeryHelper.SCHEMA_VERSION)
     }
 
     def unparcelSqlTable(String sqlStatement) {

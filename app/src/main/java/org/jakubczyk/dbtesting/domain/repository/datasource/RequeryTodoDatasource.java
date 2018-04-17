@@ -1,6 +1,6 @@
 package org.jakubczyk.dbtesting.domain.repository.datasource;
 
-import org.jakubczyk.dbtesting.db.RequeryDatastore;
+import org.jakubczyk.dbtesting.db.RequeryHelper;
 import org.jakubczyk.dbtesting.db.model.TodoDbEntityEntity;
 
 import java.util.Date;
@@ -15,17 +15,15 @@ import rx.Single;
 import rx.functions.Func1;
 import rx.subjects.BehaviorSubject;
 
-public class TodoDatasourceImpl implements TodoDatasource {
-
+public class RequeryTodoDatasource implements TodoDatasource {
 
     private SingleEntityStore<Persistable> dataStore;
 
     BehaviorSubject<List<TodoDbEntityEntity>> behaviorSubject = BehaviorSubject.create();
 
     @Inject
-    public TodoDatasourceImpl(
-            RequeryDatastore requeryDatastore) {
-        dataStore = requeryDatastore.getDataStore();
+    public RequeryTodoDatasource(RequeryHelper requeryHelper) {
+        dataStore = requeryHelper.getDataStore();
     }
 
     @Override

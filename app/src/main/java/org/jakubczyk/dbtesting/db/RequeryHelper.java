@@ -19,7 +19,7 @@ import io.requery.sql.SchemaModifier;
 import io.requery.sql.TableCreationMode;
 import io.requery.sql.platform.SQLite;
 
-public class RequeryDatastore {
+public class RequeryHelper {
 
     // Don't change this values.
     // It marks from which DB version we started to migrate the schema
@@ -30,7 +30,7 @@ public class RequeryDatastore {
     private final SingleEntityStore<Persistable> dataStore;
     private final Configuration configuration;
 
-    private RequeryDatastore(SingleEntityStore<Persistable> dataStore, Configuration configuration) {
+    private RequeryHelper(SingleEntityStore<Persistable> dataStore, Configuration configuration) {
         this.dataStore = dataStore;
         this.configuration = configuration;
     }
@@ -76,12 +76,12 @@ public class RequeryDatastore {
         }
 
 
-        public RequeryDatastore build() {
+        public RequeryHelper build() {
             configurationBuilder.setEntityCache(new EmptyEntityCache());
             Configuration configuration = configurationBuilder.build();
             EntityDataStore<Persistable> store = new EntityDataStore<>(configuration);
 
-            return new RequeryDatastore(RxSupport.toReactiveStore(store), configuration);
+            return new RequeryHelper(RxSupport.toReactiveStore(store), configuration);
         }
 
     }
