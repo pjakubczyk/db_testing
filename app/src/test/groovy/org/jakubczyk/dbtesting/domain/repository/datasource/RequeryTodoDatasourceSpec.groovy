@@ -16,7 +16,7 @@ class RequeryTodoDatasourceSpec extends MySpecification {
     RequeryTodoDatasource datasource
 
     def "setup"() {
-        dataStore = getPersistableRepository()
+        dataStore = getTestRequeryHelper()
         store = dataStore.getDataStore()
 
         datasource = new RequeryTodoDatasource(dataStore)

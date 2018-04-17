@@ -53,7 +53,7 @@ class MySpecification extends Specification {
     public TemporaryFolder folder = new TemporaryFolder();
 
     def getDbSource() {
-        def persistableRepository = getPersistableRepository()
+        def persistableRepository = getTestRequeryHelper()
 
         def configuration = persistableRepository.getConfiguration()
 
@@ -63,7 +63,7 @@ class MySpecification extends Specification {
         return persistableRepository.getDataStore()
     }
 
-    RequeryHelper getPersistableRepository() {
+    RequeryHelper getTestRequeryHelper() {
         def builder = new RequeryHelper.Builder(sqlLiteSource())
         builder.platform(new SQLite())
 

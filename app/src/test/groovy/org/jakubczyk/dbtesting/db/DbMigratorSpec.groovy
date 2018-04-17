@@ -17,7 +17,7 @@ class DbMigratorSpec extends MySpecification {
     def "setup"() {
 
         // prepare DB objects
-        def persistableRepository = getPersistableRepository()
+        def persistableRepository = getTestRequeryHelper()
 
         entityStore = persistableRepository.getDataStore()
         configuration = persistableRepository.getConfiguration()
